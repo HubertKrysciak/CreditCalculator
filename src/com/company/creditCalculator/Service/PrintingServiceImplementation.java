@@ -1,11 +1,13 @@
 package com.company.creditCalculator.Service;
 
 import com.company.creditCalculator.Model.InputData;
+import com.company.creditCalculator.Model.Overpayment;
 import com.company.creditCalculator.Model.Rate;
 import com.company.creditCalculator.Model.Summary;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class PrintingServiceImplementation implements PrintingService{
 
@@ -18,7 +20,28 @@ public class PrintingServiceImplementation implements PrintingService{
         msg.append(NEW_LINE);
         msg.append(INTEREST).append(inputData.getInterestDisplay()).append(PERCENT);
         msg.append(NEW_LINE);
+
+        Optional.of(inputData.getOverpaymentSchema()).filter(schema -> schema.size() > 0)
+                .ifPresent(schema -> logOverpayment(msg, inputData));
+
         printMessage(msg);
+    }
+
+    private void logOverpayment(StringBuilder msg, InputData inputData) {
+        switch (inputData.getOverpaymentReduceWay()){
+            case Overpayment.REDUCE_PERIOD:
+                msg.append(OVERPAYMENT_REDUCE_PERIOD);
+                break;
+            case Overpayment.REDUCE_RATE:
+                msg.append(OVERPAYMENT_REDUCE_RATE);
+                break;
+            default:
+                throw new MortgageException();
+        }
+
+        msg.append(NEW_LINE);
+        msg.append(OVERPAYMENT_FREQUENCY).append(inputData.getOverpaymentSchema());
+        msg.append(NEW_LINE);
     }
 
     @Override
@@ -59,6 +82,11 @@ public class PrintingServiceImplementation implements PrintingService{
         StringBuilder msg = new StringBuilder(NEW_LINE);
         msg.append(INTEREST_SUM).append(summary.getInterestSum()).append(CURRENCY);
         msg.append(NEW_LINE);
+        msg.append(OVERPAYMENT_PROVISION).append(summary.getOverpaymentProvisions()).append(CURRENCY);
+        msg.append(NEW_LINE);
+        msg.append(LOSTS_SUM).append(summary.getTotalLosts()).append(CURRENCY);
+        msg.append(NEW_LINE);
+
 
         printMessage(msg);
     }

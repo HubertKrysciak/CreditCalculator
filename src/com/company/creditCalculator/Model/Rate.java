@@ -7,14 +7,19 @@ public class Rate {
     private final BigDecimal rateNumber;
     private final RateAmounts rateAmounts;
     private final MortgageResidual mortgageResidual;
+    private final MorgageReference morgageReference;
 
-    public Rate(TimePoint timePoint, BigDecimal rateNumber, RateAmounts rateAmounts, MortgageResidual mortgageResidual) {
+    public Rate(TimePoint timePoint,
+                BigDecimal rateNumber,
+                RateAmounts rateAmounts,
+                MortgageResidual mortgageResidual,
+                MorgageReference morgageReference) {
         this.timePoint = timePoint;
         this.rateNumber = rateNumber;
         this.rateAmounts = rateAmounts;
         this.mortgageResidual = mortgageResidual;
+        this.morgageReference = morgageReference;
     }
-
 
     public TimePoint getTimePoint() {
         return timePoint;
@@ -32,11 +37,7 @@ public class Rate {
         return mortgageResidual;
     }
 
-    @Override
-    public String toString() {
-        return "Rate{" +
-                "rateAmounts=" + rateAmounts +
-                ", mortgageResidual=" + mortgageResidual +
-                '}';
+    public MorgageReference getMorgageReference() {
+        return morgageReference;
     }
 }

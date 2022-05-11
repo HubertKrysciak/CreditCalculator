@@ -13,7 +13,7 @@ public class Main {
         InputData inputData = new InputData();
         PrintingServiceImplementation printingServiceImplementation = new PrintingServiceImplementation();
 
-        RateCalculationService rateCalculationService = new RateCalculationServiceImpl(new TimePointServiceImpl(), new AmountCalculationServiceImpl(), new ResidualCalculationServiceImpl());
+        RateCalculationService rateCalculationService = new RateCalculationServiceImpl(new TimePointServiceImpl(), new AmountCalculationServiceImpl(), new OverpaymentCalculationServiceImpl(), new ResidualCalculationServiceImpl(), new ReferenceCalculationServiceImpl());
         MortgageCalculationService mortgageCalculationService = new MortgageCalculationServiceImpl(printingServiceImplementation, rateCalculationService, SummaryServiceFactory.create());
         mortgageCalculationService.calculate(inputData);
 
